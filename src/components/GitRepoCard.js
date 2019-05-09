@@ -15,27 +15,35 @@ export default class GitRepoCard extends React.Component{
         }
     }
 
-    componentDidMount() {
-        axios.get(`https://api.github.com/search/repositories?q=TEST`)
-          .then(res => {
-            const repoListDtls = res.data.items;
-            this.setState({ repoListDtls });
-        }).catch(err => {
-            console.log(err)
-        })
+    async componentDidMount() {
+        try{
+            await axios.get(`https://api.github.com/search/repositories?q=TEST`)
+            .then(res => {
+              const repoListDtls = res.data.items;
+              this.setState({ repoListDtls });
+          }).catch(err => {
+              console.log(err)
+          })
+        }catch(error){
+            throw Error(error);
+        }
     }
 
-      SerachRepository(searchTxt){
-          axios.get(`https://api.github.com/search/repositories?q=TEST`)
-          .then(res => {
-            const repoListDtls = res.data.items.filter((val) => {
-                return val.full_name == ((searchTxt == undefined || searchTxt == '') ?  'pytest-dev/pytest' : searchTxt);
-            });
-            this.setState({ repoListDtls });
-        }).catch(err => {
-          console.log(err)
-        })
-      }
+    async SerachRepository(searchTxt){
+        try{
+            await axios.get(`https://api.github.com/search/repositories?q=TEST`)
+            .then(res => {
+              const repoListDtls = res.data.items.filter((item) => {
+                  return (item.name).match(searchTxt);
+              });
+              this.setState({ repoListDtls });
+          }).catch(err => {
+            console.log(err);
+          })
+        }catch(error){
+            throw Error(error);
+        }
+    }
 
      renderDt(){
         return <div className="main-card-conatiner dFlex ptop170">
@@ -44,15 +52,14 @@ export default class GitRepoCard extends React.Component{
                 <div className="main_div"  key={mapDtls.id}>
                 <div className="mn-suggester-card">
                     <div className="mn-suggester-card_info-wrapper">
-                    <a className="mn-suggester-card__image-link">
+                    <a className="mn-suggester-card__image-link" href="/">
                         <img src={mapDtls.owner.avatar_url} alt="logo" className="imgBox"></img>
                     </a>
-                    <span>{mapDtls.full_name}</span>
-                    <span>Repo Icon</span>
+                    <span>{mapDtls.name}</span>
                     <div>
-                        <img src={icon1} className="gitIconSize"></img>
-                        <img src={icon2} className="gitIconSize"></img>
-                        <img src={icon3} className="gitIconSize"></img>
+                        <img src={icon1} className="gitIconSize" alt=""></img>
+                        <img src={icon2} className="gitIconSize" alt=""></img>
+                        <img src={icon3} className="gitIconSize" alt=""></img>
                     </div>
                     </div>
                     <button className="button button1">View Profile</button>
@@ -66,7 +73,7 @@ export default class GitRepoCard extends React.Component{
     render(){
         return(
           <React.Fragment>
-            <SearchBar  SerachRepository={()=>this.SerachRepository()}/>
+            <SearchBar  SerachRepository={(val)=>this.SerachRepository(val)}/>
            <div>{this.renderDt()}</div>
           </React.Fragment>
         )
