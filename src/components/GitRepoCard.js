@@ -55,7 +55,7 @@ export default class GitRepoCard extends React.Component{
                     <a className="mn-suggester-card__image-link" href="/">
                         <img src={mapDtls.owner.avatar_url} alt="logo" className="imgBox"></img>
                     </a>
-                    <span>Mr Vivek Shukla</span>
+                    <span>Mr Baldev</span>
                     <div>
                         <img src={icon1} className="gitIconSize" alt=""></img>
                         <img src={icon2} className="gitIconSize" alt=""></img>
