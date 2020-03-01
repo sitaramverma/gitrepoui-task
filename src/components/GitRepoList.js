@@ -7,7 +7,7 @@ class GitRepoList extends React.Component {
     render(){
         return(
             <div className="main-repocontainer">
-                <div className="wd100 bg-color">
+            <div className="wd100 bg-color f">
                   <GitRepoCard/>
                 </div>
             </div>
